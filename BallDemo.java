@@ -45,7 +45,7 @@ public class BallDemo
         // create and show the balls
         BouncingBall ball = new BouncingBall(50, 50, 16, Color.BLUE, ground, myCanvas);
         ball.draw();
-        BouncingBall ball2 = new BouncingBall(70, 80, 20, Color.RED, ground, myCanvas);
+        BouncingBall ball2 = new BouncingBall(70, 50, 20, Color.RED, ground, myCanvas);
         ball2.draw();
 
         // make them bounce
