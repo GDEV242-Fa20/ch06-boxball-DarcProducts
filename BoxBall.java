@@ -12,16 +12,17 @@ import java.util.ArrayList;
 
 public class BoxBall
 {
+    private static final int XORIGIN = 300; 
+    private static final int YORIGIN = 250;
+    private static final int DIAMETER = 10;
     private Random rand = new Random();
     private Ellipse2D.Double circle;
     private Color color;
-    private static final int diameter = 10;
     private Canvas thisCanvas;
     private int ySpeed = 0;  
     private int xSpeed = 0;
     private int boxSize = 200;
-    int originX = 300; int originY = 250;
-    int thisSpeed = 2;
+    private int thisSpeed = 2;
     private int xPosition;
     private int yPosition;
 
@@ -33,10 +34,12 @@ public class BoxBall
     {
         //sets a random initial x speed
         if (rand.nextInt(2)==1)
-        xSpeed = 1; else xSpeed = -1;
+        xSpeed = 1; 
+        else xSpeed = -1;
         //sets a random initial y speed
         if (rand.nextInt(2)==1)
-        ySpeed = 1; else ySpeed = -1;
+        ySpeed = 1; 
+        else ySpeed = -1;
         //canvas to draw on
         thisCanvas = myCanvas;
         //box size to bounce in
@@ -44,9 +47,9 @@ public class BoxBall
         //sets balls to random color
         color = new Color(getRandomMinMax(10,200), getRandomMinMax(10,200), getRandomMinMax(10,200));
         //ball x position random inside new canvas
-        xPosition = getRandomMinMax((originX - myBoxSize) + diameter, (originX + myBoxSize) - diameter);
+        xPosition = getRandomMinMax((XORIGIN - myBoxSize) + DIAMETER, (XORIGIN + myBoxSize) - DIAMETER);
         //ball y position random inside new canvas
-        yPosition = getRandomMinMax((originY - myBoxSize) + diameter, (originY + myBoxSize) - diameter);
+        yPosition = getRandomMinMax((YORIGIN - myBoxSize) + DIAMETER, (YORIGIN + myBoxSize) - DIAMETER);
     }
 
     /**
@@ -55,7 +58,7 @@ public class BoxBall
     public void draw()
     {
         thisCanvas.setForegroundColor(color);
-        thisCanvas.fillCircle(xPosition, yPosition, diameter);
+        thisCanvas.fillCircle(xPosition, yPosition, DIAMETER);
     }
 
     /**
@@ -63,7 +66,7 @@ public class BoxBall
      **/
     public void erase()
     {
-        thisCanvas.eraseCircle(xPosition, yPosition, diameter);
+        thisCanvas.eraseCircle(xPosition, yPosition, DIAMETER);
     }    
 
     /**
@@ -74,22 +77,22 @@ public class BoxBall
         // remove at current position
         erase();  
         //set speed depending on box size
-        if (boxSize>200) thisSpeed = 9;
-        else if (boxSize>100&&boxSize<=200) thisSpeed = 6;
+        if (boxSize>180) thisSpeed = 9;
+        else if (boxSize>100&&boxSize<=180) thisSpeed = 6;
         else thisSpeed = 3;
         //get new position
         yPosition += ySpeed * thisSpeed;
         xPosition += xSpeed * thisSpeed;
         //stores locations of walls
-        int cielPosition = originY - boxSize;
-        int rWallPosition = originX - boxSize;
-        int lWallPosition = originX + boxSize;
-        int groundPosition = originY + boxSize;
+        int cielPosition = YORIGIN - boxSize;
+        int rWallPosition = XORIGIN - boxSize;
+        int lWallPosition = XORIGIN + boxSize;
+        int groundPosition = YORIGIN + boxSize;
         
-        //checks to see if ball is within bounds {had to adjust a small amount, wasnt detecting top left wall close enough}
-        if (xPosition > lWallPosition - 14 || xPosition < rWallPosition + 4)
+        //checks to see if ball is outside bounds if so reverse speed {had to adjust slightly for top left bounce issues}
+        if (xPosition > lWallPosition - DIAMETER || xPosition < rWallPosition + 5)
         xSpeed = -xSpeed;
-        if (yPosition > groundPosition - 14 || yPosition < cielPosition + 4)
+        if (yPosition > groundPosition - DIAMETER || yPosition < cielPosition + 5)
         ySpeed = -ySpeed; 
         // draw again at new position
         draw();

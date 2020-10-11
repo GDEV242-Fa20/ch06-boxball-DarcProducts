@@ -16,10 +16,6 @@ public class BallDemo
     private Random rand = new Random();
     //box size
     private int boxSize = 200;
-    //currently not able to turn off
-    private boolean isBouncing = true;
-    //time to stop bouncing
-    private float currentTime = 200f;
       
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
@@ -64,13 +60,14 @@ public class BallDemo
     }
     
     /**
-     * creates balls in a box, set the box size from this method and the box balls will respond
+     * creates balls in a box, set the box size from this method and the box balls will respond 
+     * the more balls the longer the simulation will last* 
      * @method
      */
     public void boxBounce(int numberOfBalls)
     {
-        //message to let the observer know simulation will end
-        System.out.println("This simulation will end in roughly 5 seconds.");
+        boolean isBouncing = true;
+        float currentTime = 200f;
         //current balls
         int currentBalls = 0;
         //creates array of balls
@@ -105,7 +102,6 @@ public class BallDemo
                 myBall.move();
             }
         }
-        currentTime=200f;
     }
         
     /**
