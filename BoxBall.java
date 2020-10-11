@@ -16,14 +16,14 @@ public class BoxBall
     private Ellipse2D.Double circle;
     private Color color;
     private static final int diameter = 10;
-    private int xPosition;
-    private int yPosition;
     private Canvas thisCanvas;
     private int ySpeed = 0;  
     private int xSpeed = 0;
-    private int boxSize = 100;
+    private int boxSize = 200;
     int originX = 300; int originY = 250;
-    int speedMultiplier = 3;
+    int thisSpeed = 2;
+    private int xPosition;
+    private int yPosition;
 
     /**
      * Constructor for objects of class BoxBall
@@ -42,7 +42,7 @@ public class BoxBall
         //box size to bounce in
         boxSize = myBoxSize;
         //sets balls to random color
-        color = new Color(getRandomMinMax(20,180), getRandomMinMax(20,180), getRandomMinMax(20,180));
+        color = new Color(getRandomMinMax(10,200), getRandomMinMax(10,200), getRandomMinMax(10,200));
         //ball x position random inside new canvas
         xPosition = getRandomMinMax((originX - myBoxSize) + diameter, (originX + myBoxSize) - diameter);
         //ball y position random inside new canvas
@@ -71,17 +71,26 @@ public class BoxBall
      **/
     public void move()
     {
-        // remove from canvas at the current position
+        // remove at current position
         erase();  
-        // compute new position
-        yPosition += ySpeed * speedMultiplier;
-        xPosition += xSpeed * speedMultiplier;
+        //set speed depending on box size
+        if (boxSize>200) thisSpeed = 9;
+        else if (boxSize>100&&boxSize<=200) thisSpeed = 6;
+        else thisSpeed = 3;
+        //get new position
+        yPosition += ySpeed * thisSpeed;
+        xPosition += xSpeed * thisSpeed;
+        //stores locations of walls
+        int cielPosition = originY - boxSize;
+        int rWallPosition = originX - boxSize;
+        int lWallPosition = originX + boxSize;
+        int groundPosition = originY + boxSize;
         
-        if (xPosition > (originX + boxSize) - diameter || xPosition < (originX - boxSize) + diameter)
-        xSpeed = xSpeed * -1;
-        if (yPosition > (originY + boxSize) - diameter || yPosition < (originY - boxSize) + diameter)
-        ySpeed = ySpeed * -1;
-        
+        //checks to see if ball is within bounds {had to adjust a small amount, wasnt detecting top left wall close enough}
+        if (xPosition > lWallPosition - 14 || xPosition < rWallPosition + 4)
+        xSpeed = -xSpeed;
+        if (yPosition > groundPosition - 14 || yPosition < cielPosition + 4)
+        ySpeed = -ySpeed; 
         // draw again at new position
         draw();
     }    

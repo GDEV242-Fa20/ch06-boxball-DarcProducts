@@ -1,6 +1,6 @@
 import java.awt.Color;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
 /**
  * Class BallDemo - a short demonstration showing animation with the 
  * Canvas class. 
@@ -15,10 +15,12 @@ public class BallDemo
     //random generator to use
     private Random rand = new Random();
     //box size
-    private int boxSize = 100;
+    private int boxSize = 200;
     //currently not able to turn off
     private boolean isBouncing = true;
-  
+    //time to stop bouncing
+    private float currentTime = 200f;
+      
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
      * @constructor
@@ -62,54 +64,71 @@ public class BallDemo
     }
     
     /**
-     * creates balls in a box
+     * creates balls in a box, set the box size from this method and the box balls will respond
      * @method
      */
     public void boxBounce(int numberOfBalls)
     {
-        //draws canvas and sets box size
+        //message to let the observer know simulation will end
+        System.out.println("This simulation will end in roughly 5 seconds.");
         //current balls
         int currentBalls = 0;
         //creates array of balls
-        CopyOnWriteArrayList<BoxBall> myBalls = new CopyOnWriteArrayList<BoxBall>();
+        ArrayList<BoxBall> myBalls = new ArrayList<BoxBall>();
         //add a specific number of balls to list and draw them
         while (currentBalls<numberOfBalls)
         {
+            //create new box ball and add it to array
             BoxBall thisBall = new BoxBall(boxSize, myCanvas);
             myBalls.add(thisBall);
+            //draw ball
             thisBall.draw();
+            //add to current balls
             currentBalls++;
         }   
         //while bouncing keep bouncing
         while (isBouncing)
         {
+            //sets a time to stop the bouncing balls
+            currentTime-=.5f;
+            if (currentTime<=0)
+            {
+ 
+                isBouncing = false;
+            }
+            //keeps the canvas updated
             drawCraigsBox(boxSize);
             for (BoxBall myBall : myBalls)
             {
+                //waits 1 millisecond to smooth out animation a little
                 myCanvas.wait(1);
+                //moves ball
                 myBall.move();
             }
         }
     }
         
     /**
-     * sets box size
-     * @mthod
+     * sets box size; must be a value between 13 and 245
+     * @method
      */
     public void setBoxSize(int size)
     {
+        //sets box size
         boxSize = size;
+        //erases old canvas
+        myCanvas.erase();
+        //draws new canvas
         drawCraigsBox(boxSize);
     }
     
     /**
-     * draws Craigs new canvas
+     * draws Craigs new canvas with box
      * @method
      */
     private void drawCraigsBox(int thisBoxSize)
     {
-        //erase old canvas before drawing on new one
-        if (thisBoxSize>2&&thisBoxSize<246)
+        if (thisBoxSize>12&&thisBoxSize<246)
         {
             //origin of canvas
             int originX = 300; int originY = 250;
@@ -125,6 +144,6 @@ public class BallDemo
             //cieling line
             myCanvas.setForegroundColor(Color.BLACK);
             myCanvas.drawLine(originX+thisBoxSize, originY-thisBoxSize, originX-thisBoxSize, originY-thisBoxSize);
-        } else System.out.println("Enter a box size greater than 2 and less than 246");        
+        } else System.out.println("Enter a box size greater than 12 and less than 246");        
     }
 }
