@@ -93,7 +93,6 @@ public class BallDemo
             currentTime-=.5f;
             if (currentTime<=0)
             {
- 
                 isBouncing = false;
             }
             //keeps the canvas updated
@@ -106,6 +105,7 @@ public class BallDemo
                 myBall.move();
             }
         }
+        currentTime=200f;
     }
         
     /**
