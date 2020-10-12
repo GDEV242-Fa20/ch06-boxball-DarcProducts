@@ -90,9 +90,9 @@ public class BoxBall
         int groundPosition = YORIGIN + boxSize;
         
         //checks to see if ball is outside bounds if so reverse speed {had to adjust slightly for top left bounce issues}
-        if (xPosition > lWallPosition - DIAMETER || xPosition < rWallPosition + 5)
+        if (xPosition > lWallPosition - DIAMETER || xPosition < rWallPosition + DIAMETER)
         xSpeed = -xSpeed;
-        if (yPosition > groundPosition - DIAMETER || yPosition < cielPosition + 5)
+        if (yPosition > groundPosition - DIAMETER || yPosition < cielPosition + DIAMETER)
         ySpeed = -ySpeed; 
         // draw again at new position
         draw();

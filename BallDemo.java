@@ -16,7 +16,7 @@ public class BallDemo
     private Random rand = new Random();
     //box size
     private int boxSize = 200;
-      
+
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
      * @constructor
@@ -61,12 +61,16 @@ public class BallDemo
     
     /**
      * creates balls in a box, set the box size from this method and the box balls will respond 
-     * the more balls the longer the simulation will last* 
+     * the more balls the longer the simulation will last and rough simulation will run, no time to tinker* 
      * @method
      */
     public void boxBounce(int numberOfBalls)
     {
-        boolean isBouncing = true;
+        //clears canvas in case there was a previous one
+        myCanvas.erase(); drawCraigsBox(boxSize);
+        //sets false until all balls are added
+        boolean isBouncing = false;
+        //current time for simulation
         float currentTime = 200f;
         //current balls
         int currentBalls = 0;
@@ -82,7 +86,10 @@ public class BallDemo
             thisBall.draw();
             //add to current balls
             currentBalls++;
-        }   
+        }
+        //waits till all balls are added then starts to bounce
+        if (currentBalls>=numberOfBalls)
+        isBouncing = true;
         //while bouncing keep bouncing
         while (isBouncing)
         {
@@ -90,6 +97,7 @@ public class BallDemo
             currentTime-=.5f;
             if (currentTime<=0)
             {
+                System.out.println("Simulation finished");
                 isBouncing = false;
             }
             //keeps the canvas updated
